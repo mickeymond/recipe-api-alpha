@@ -1,7 +1,7 @@
 import { Router } from "express";
 import multer from "multer";
 import { addRecipe, deleteRecipe, getRecipe, getRecipes, updateRecipe } from "../controllers/recipes.controller.js";
-import { multerSaveFilesOrgStorage } from "multer-savefilesorg-storage";
+import { multerSaveFilesOrg } from "multer-savefilesorg";
 import dotenv from "dotenv";
 
 // Load env variables
@@ -10,7 +10,7 @@ dotenv.config({ path: ['.env.local'] });
 // Configure upload middleware
 // const upload = multer({ dest: 'uploads/images' });
 const upload = multer({
-    storage: multerSaveFilesOrgStorage({
+    storage: multerSaveFilesOrg({
         apiAccessToken: process.env.SAVEFILESORG_API_KEY,
         relativePath: '/recipes/images/*'
     }),
