@@ -1,3 +1,4 @@
+import { UserModel } from "../models/user.js";
 import { RecipeModel } from "../models/recipe.js";
 
 export const addRecipe = async (req, res, next) => {
@@ -5,7 +6,8 @@ export const addRecipe = async (req, res, next) => {
         // Add Recipe to the database
         const createResult = await RecipeModel.create({
             ...req.body,
-            image: req.file.filename
+            image: req.file.filename,
+            userId: req.session.user.id
         });
         // Return response
         res.status(201).json(createResult);
@@ -18,7 +20,7 @@ export const addRecipe = async (req, res, next) => {
 export const getRecipes = async (req, res, next) => {
     try {
         // Get all recipes from database
-        const findResult = await RecipeModel.find();
+        const findResult = await RecipeModel.find(req.query);
         // Return response
         res.status(200).json(findResult);
     } catch (error) {

@@ -1,8 +1,9 @@
 import { Router } from "express";
 import multer from "multer";
-import { addRecipe, deleteRecipe, getRecipe, getRecipes, updateRecipe } from "../controllers/recipes.controller.js";
-import { multerSaveFilesOrg } from "multer-savefilesorg";
 import dotenv from "dotenv";
+import { multerSaveFilesOrg } from "multer-savefilesorg";
+import { addRecipe, deleteRecipe, getRecipe, getRecipes, updateRecipe } from "../controllers/recipes.controller.js";
+import { checkUserSession } from "../middlewares/auth.middleware.js";
 
 // Load env variables
 dotenv.config({ path: ['.env.local'] });
@@ -19,6 +20,9 @@ const upload = multer({
 
 // Create recipes router
 const router = Router();
+
+// Apply middlewares
+router.use(checkUserSession);
 
 // Define routes
 router.post('/', upload.single('image'), addRecipe);
